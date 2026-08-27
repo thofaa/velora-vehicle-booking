@@ -1,8 +1,22 @@
 import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard({ auth }: { auth: { user: { name: string } | null } }) {
+export default function Dashboard({
+    auth,
+}: {
+    auth: { user: { name: string; role?: string } | null };
+}) {
     const { post, processing } = useForm({});
+    const isAdmin = auth.user?.role === 'admin';
+
+    const links = isAdmin
+        ? [
+              { href: '/pemesanan', label: 'Daftar Pemesanan', desc: 'Kelola pemesanan kendaraan' },
+              { href: '/pemesanan/create', label: 'Buat Pemesanan', desc: 'Ajukan pemesanan kendaraan baru' },
+          ]
+        : [
+              { href: '/persetujuan', label: 'Persetujuan', desc: 'Proses persetujuan yang menunggu Anda' },
+          ];
 
     return (
         <>
@@ -25,11 +39,17 @@ export default function Dashboard({ auth }: { auth: { user: { name: string } | n
                     </div>
                 </header>
                 <main className="flex flex-1 items-center justify-center p-6">
-                    <div className="max-w-md rounded-2xl border bg-white p-8 text-center shadow-sm">
-                        <p className="text-sm text-gray-500">
-                            Halaman dashboard pemesanan kendaraan akan dibahas &amp; dibuat pada
-                            tahap berikutnya.
-                        </p>
+                    <div className="grid w-full max-w-md gap-4">
+                        {links.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                className="block rounded-2xl border bg-white p-5 transition hover:border-blue-300 hover:shadow-md"
+                            >
+                                <p className="font-semibold text-gray-900">{link.label}</p>
+                                <p className="mt-1 text-sm text-gray-500">{link.desc}</p>
+                            </a>
+                        ))}
                     </div>
                 </main>
             </div>

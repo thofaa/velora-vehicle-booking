@@ -14,6 +14,14 @@ class Persetujuan extends Model
     /** @use HasFactory<PersetujuanFactory> */
     use HasFactory;
 
+    public const STATUS_PENDING = 'pending';
+
+    public const STATUS_APPROVED = 'approved';
+
+    public const STATUS_REJECTED = 'rejected';
+
+    public const STATUS_DIBATALKAN = 'dibatalkan';
+
     protected $table = 'persetujuan';
 
     /**

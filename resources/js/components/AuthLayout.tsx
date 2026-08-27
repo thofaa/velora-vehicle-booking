@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { type ReactNode } from 'react';
+import type {ReactNode} from 'react';
 
 const BACKGROUND_IMAGE =
     'https://i.pinimg.com/736x/83/0e/b1/830eb1fd0cac71a9c58b9f98b2cc1c53.jpg';

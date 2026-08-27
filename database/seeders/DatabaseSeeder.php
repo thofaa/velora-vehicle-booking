@@ -22,7 +22,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
-        User::factory()->count(2)->penyetuju()->create();
+        User::factory()->penyetuju()->create([
+            'name' => 'Penyetuju Satu',
+            'email' => 'penyetuju@example.com',
+        ]);
+
+        User::factory()->penyetuju()->create();
 
         Kendaraan::factory()->count(5)->create();
         Driver::factory()->count(5)->create();
