@@ -16,11 +16,12 @@ export default function Header() {
           ]
         : [
               { href: '/persetujuan', label: 'Persetujuan' },
+              { href: '/persetujuan/history', label: 'Riwayat' },
           ];
 
     return (
         <header className="sticky top-0 z-20 border-b border-gray-100 bg-white/95 backdrop-blur">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+            <div className="flex items-center justify-between px-20 py-3">
                 <Link href={isAdmin ? '/dashboard' : '/persetujuan'} className="text-lg font-semibold text-gray-900">
                     Vehicle Booking
                 </Link>
