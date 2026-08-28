@@ -32,7 +32,7 @@ return null;
     const actionable = !previousBlocked && !bookingStopped;
 
     return (
-        <div className="rounded-2xl border bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border bg-white p-5 shadow-sm w-[600px]">
             <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <p className="text-base font-semibold text-gray-900">
