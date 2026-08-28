@@ -37,9 +37,6 @@ export default function KendaraanSelect({
                 disabled={disabled}
                 onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
             >
-                <option value="">
-                    {loading ? 'Memuat kendaraan tersedia...' : 'Pilih kendaraan'}
-                </option>
                 {kendaraan.map((k) => {
                     const unavailable = unavailableIds.includes(k.id);
 

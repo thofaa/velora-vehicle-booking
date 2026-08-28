@@ -35,9 +35,6 @@ export default function DriverSelect({
                 disabled={disabled}
                 onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
             >
-                <option value="">
-                    {loading ? 'Memuat driver tersedia...' : 'Pilih driver'}
-                </option>
                 {driver.map((d) => {
                     const unavailable = unavailableIds.includes(d.id);
 

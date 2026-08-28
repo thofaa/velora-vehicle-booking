@@ -31,7 +31,6 @@ export default function PenyetujuLevelSelect({
                 value={value ?? ''}
                 onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
             >
-                <option value="">Pilih penyetuju level {level}</option>
                 {penyetuju.map((u) => {
                     const used = usedIds.includes(u.id);
 
