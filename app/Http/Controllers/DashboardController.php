@@ -10,6 +10,7 @@ use App\Services\JadwalServiceService;
 use App\Services\KonsumsiBbmService;
 use App\Services\RiwayatPemakaianService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,8 +25,12 @@ class DashboardController extends Controller
     /**
      * Halaman dashboard, membawa daftar kendaraan untuk filter widget.
      */
-    public function index(): Response
+    public function index(): Response|RedirectResponse
     {
+        if (auth()->user()?->role !== 'admin') {
+            return redirect()->route('persetujuan.index');
+        }
+
         return Inertia::render('Dashboard', [
             'kendaraan' => Kendaraan::aktif()->orderBy('merk')->get([
                 'id', 'nomor_polisi', 'merk', 'tipe',

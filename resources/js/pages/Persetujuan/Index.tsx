@@ -5,7 +5,7 @@ import type {PersetujuanRecord} from '@/types/domain';
 
 export default function Index({ persetujuan }: { persetujuan: PersetujuanRecord[] }) {
     return (
-        <AppLayout title="Persetujuan Pending">
+        <AppLayout title="Daftar Antrian Persetujuan">
             <div className="mb-4 flex justify-end">
                 <Link
                     href="/persetujuan/history"

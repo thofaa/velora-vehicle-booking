@@ -23,7 +23,7 @@ export default function History({ persetujuan }: { persetujuan: PersetujuanRecor
                     href="/persetujuan"
                     className="text-sm font-medium text-blue-600 hover:text-blue-800"
                 >
-                    ← Kembali ke pending
+                    ← Kembali ke daftar antrian
                 </Link>
             </div>
 

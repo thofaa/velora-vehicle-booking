@@ -6,6 +6,7 @@ use App\Models\KonsumsiBbm;
 use App\Models\Pemesanan;
 use App\Models\User;
 use Illuminate\Support\Carbon;
+use Inertia\Testing\AssertableInertia;
 
 beforeEach(function () {
     $this->admin = User::factory()->admin()->create();
@@ -26,6 +27,22 @@ test('penyetuju tidak dapat mengakses endpoint dashboard', function () {
 
     $this->get(route('dashboard.jadwal-service', ['id_kendaraan' => 1, 'bulan' => 6, 'tahun' => 2026]))
         ->assertForbidden();
+});
+
+test('penyetuju dialihkan dari halaman dashboard ke persetujuan', function () {
+    $this->actingAs(User::factory()->penyetuju()->create());
+
+    $this->get(route('dashboard'))->assertRedirect(route('persetujuan.index'));
+});
+
+test('admin dapat mengakses halaman dashboard dengan daftar kendaraan', function () {
+    Kendaraan::factory()->count(2)->create();
+
+    $this->actingAs($this->admin)->get(route('dashboard'))
+        ->assertOk()
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Dashboard')
+            ->has('kendaraan', 2));
 });
 
 test('konsumsi bbm bulanan mengelompokkan total liter per bulan per kendaraan', function () {
