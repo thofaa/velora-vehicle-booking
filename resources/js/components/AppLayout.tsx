@@ -19,8 +19,8 @@ export default function AppLayout({
     const nav = isAdmin
         ? [
               { href: '/dashboard', label: 'Dashboard' },
-              { href: '/pemesanan', label: 'Pemesanan' },
-              { href: '/pemesanan/create', label: '+ Buat Pemesanan' },
+              { href: '/pemesanan', label: 'Daftar Pemesanan' },
+              { href: '/pemesanan/create', label: 'Buat Pemesanan' },
           ]
         : [
               { href: '/dashboard', label: 'Dashboard' },
