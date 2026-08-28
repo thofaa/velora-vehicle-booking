@@ -18,6 +18,7 @@
 </p>
 
 <br />
+
 Velora adalah aplikasi **manajemen pemesanan kendaraan** berbasis web yang menangani alur pemesanan kendaraan, rantai persetujuan berjenjang (penyetuju), ekspor laporan ke Excel, serta dashboard konsumsi BBM dan jadwal servis.
 
 ## Akun Default (Seeder)
