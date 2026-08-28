@@ -87,7 +87,13 @@ export default function PemesananForm({ kendaraan, driver, penyetuju }: Props) {
                     });
                 },
             )
-            .catch(() => {});
+            .catch(() => {
+                setAvailability({
+                    key: datesKey,
+                    kendaraan: kendaraan.map((k) => k.id),
+                    driver: driver.map((d) => d.id),
+                });
+            });
 
         return () => controller.abort();
     }, [datesKey, data.tanggal_mulai, data.tanggal_selesai]);
@@ -121,7 +127,7 @@ export default function PemesananForm({ kendaraan, driver, penyetuju }: Props) {
                     </label>
                     <input
                         id="tanggal_mulai"
-                        type="datetime-local"
+                        type="date"
                         className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
                         value={data.tanggal_mulai}
                         onChange={(e) => setData('tanggal_mulai', e.target.value)}
@@ -134,7 +140,7 @@ export default function PemesananForm({ kendaraan, driver, penyetuju }: Props) {
                     </label>
                     <input
                         id="tanggal_selesai"
-                        type="datetime-local"
+                        type="date"
                         className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30"
                         value={data.tanggal_selesai}
                         onChange={(e) => setData('tanggal_selesai', e.target.value)}

@@ -8,8 +8,8 @@ use App\Models\User;
 function pemesananPayload(array $overrides = []): array
 {
     return array_merge([
-        'tanggal_mulai' => now()->addDays(1)->format('Y-m-d H:i'),
-        'tanggal_selesai' => now()->addDays(2)->format('Y-m-d H:i'),
+        'tanggal_mulai' => now()->addDays(1)->format('Y-m-d'),
+        'tanggal_selesai' => now()->addDays(2)->format('Y-m-d'),
         'id_kendaraan' => Kendaraan::factory()->create(['banyak_level_persetujuan' => 2])->id,
         'id_driver' => Driver::factory()->create()->id,
         'penyetuju' => [
@@ -51,8 +51,8 @@ test('admin can create pemesanan and pending persetujuan records', function () {
 
 test('tanggal selesai harus lebih besar dari tanggal mulai', function () {
     $payload = pemesananPayload([
-        'tanggal_mulai' => now()->addDays(2)->format('Y-m-d H:i'),
-        'tanggal_selesai' => now()->addDays(1)->format('Y-m-d H:i'),
+        'tanggal_mulai' => now()->addDays(2)->format('Y-m-d'),
+        'tanggal_selesai' => now()->addDays(1)->format('Y-m-d'),
     ]);
 
     $this->post(route('pemesanan.store'), $payload)
