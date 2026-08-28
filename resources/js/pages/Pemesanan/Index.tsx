@@ -100,7 +100,6 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                         title={showCatatan ? 'Sembunyikan kolom Catatan' : 'Tampilkan kolom Catatan'}
                                         className="inline-flex items-center gap-1 -ml-1 rounded px-1 py-0.5 hover:bg-gray-200"
                                     >
-                                        {showCatatan && 'Catatan'}
                                         {showCatatan ? (
                                             <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
                                                 <path
@@ -116,6 +115,7 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                                 />
                                             </svg>
                                         )}
+                                        {showCatatan && 'Catatan'}
                                     </button>
                                 </th>
                         </tr>

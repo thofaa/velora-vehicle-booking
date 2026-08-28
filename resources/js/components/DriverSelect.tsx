@@ -48,13 +48,15 @@ export default function DriverSelect({
                         );
                     })}
                 </select>
-            </div>
-            <div>
                 {value === null && (
                     <span
-                        className='left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-orange-500'
+                        className={`pointer-events-none absolute left-3 top-1/2 z-10 -translate-y-1/2 text-sm ${
+                            !disabled && allUnavailable ? 'text-orange-500' : 'text-gray-400'
+                        }`}
                     >
-                        Semua driver tidak tersedia pada tanggal tersebut!
+                        {!disabled && allUnavailable
+                            ? 'Semua driver tidak tersedia pada tanggal tersebut'
+                            : ''}
                     </span>
                 )}
             </div>
