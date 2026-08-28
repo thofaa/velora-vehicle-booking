@@ -18,9 +18,9 @@ const BULAN_NAMA = [
 
 function WidgetCard({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
     return (
-        <section className="rounded-2xl border bg-white p-5 shadow-sm dark:bg-gray-900 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
-            <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">{description}</p>
+        <section className="rounded-2xl bg-white p-5 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
+            <p className="mt-0.5 text-sm text-gray-700">{description}</p>
             <div className="mt-4">{children}</div>
         </section>
     );
@@ -86,12 +86,12 @@ export default function Dashboard({ auth, kendaraan }: Props) {
     return (
         <>
             <Head title="Dashboard" />
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-gray-100">
                 <Header />
                 <main className="mx-auto max-w-6xl space-y-6 p-6">
                     <WidgetCard title="Konsumsi BBM" description="Total liter BBM per bulan/minggu untuk beberapa kendaraan">
                         <div className="flex flex-wrap items-center gap-3">
-                            <div className="inline-flex rounded-lg bg-gray-100 p-1 dark:bg-gray-800">
+                            <div className="inline-flex rounded-lg bg-gray-200 p-1">
                                 {(['bulanan', 'mingguan'] as const).map((mode) => (
                                     <button
                                         key={mode}
@@ -110,7 +110,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={tahunBbm}
                                 onChange={(e) => setTahunBbm(Number(e.target.value))}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {tahunOptions.map((tahun) => (
                                     <option key={tahun} value={tahun}>{tahun}</option>
@@ -121,7 +121,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                                 <select
                                     value={bulanBbm}
                                     onChange={(e) => setBulanBbm(Number(e.target.value))}
-                                    className="rounded-lg border px-2 py-1.5 text-sm"
+                                    className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                                 >
                                     {BULAN_NAMA.map((nama, index) => (
                                         <option key={nama} value={index + 1}>{nama}</option>
@@ -167,7 +167,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={kendaraanPemakaian ?? ''}
                                 onChange={(e) => setKendaraanPemakaian(e.target.value ? Number(e.target.value) : null)}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {kendaraan.map((kendaraanItem) => (
                                     <option key={kendaraanItem.id} value={kendaraanItem.id}>
@@ -178,7 +178,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={tahunPemakaian}
                                 onChange={(e) => setTahunPemakaian(Number(e.target.value))}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {tahunOptions.map((tahun) => (
                                     <option key={tahun} value={tahun}>{tahun}</option>
@@ -195,7 +195,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={kendaraanService ?? ''}
                                 onChange={(e) => setKendaraanService(e.target.value ? Number(e.target.value) : null)}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {kendaraan.map((kendaraanItem) => (
                                     <option key={kendaraanItem.id} value={kendaraanItem.id}>
@@ -206,7 +206,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={bulanService}
                                 onChange={(e) => setBulanService(Number(e.target.value))}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {BULAN_NAMA.map((nama, index) => (
                                     <option key={nama} value={index + 1}>{nama}</option>
@@ -215,7 +215,7 @@ export default function Dashboard({ auth, kendaraan }: Props) {
                             <select
                                 value={tahunService}
                                 onChange={(e) => setTahunService(Number(e.target.value))}
-                                className="rounded-lg border px-2 py-1.5 text-sm"
+                                className="rounded-lg bg-gray-200 px-2 py-1.5 text-sm"
                             >
                                 {tahunOptions.map((tahun) => (
                                     <option key={tahun} value={tahun}>{tahun}</option>

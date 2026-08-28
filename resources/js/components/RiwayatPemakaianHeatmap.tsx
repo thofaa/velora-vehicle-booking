@@ -49,7 +49,7 @@ export default function RiwayatPemakaianHeatmap({ idKendaraan, tahun }: Props) {
     return (
         <div>
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500 dark:text-gray-400">
-                <p className="font-medium text-gray-700 dark:text-gray-200">
+                <p className="font-medium text-gray-700 dark:text-gray-700">
                     {data.kendaraan
                         ? `${data.kendaraan.merk} ${data.kendaraan.tipe} — ${data.kendaraan.nomor_polisi}`
                         : `Kendaraan #${data.tahun}`}
@@ -68,11 +68,11 @@ export default function RiwayatPemakaianHeatmap({ idKendaraan, tahun }: Props) {
                 <div className="inline-grid grid-cols-[auto_repeat(7,minmax(12px,1fr))] gap-1">
                     <span/>
                     {NAMA_HARI.map((hari) => (
-                        <span key={hari} className="text-center text-[10px] text-gray-400">{hari}</span>
+                        <span key={hari} className="text-center text-[10px] text-gray-600">{hari}</span>
                     ))}
                     {rows.map((week, weekIndex) => (
                         <Fragment key={weekIndex}>
-                            <span className="pr-2 text-[10px] text-gray-400">
+                            <span className="pr-2 text-[10px] text-gray-600">
                                 {weekIndex % 4 === 0 ? `Minggu ${weekIndex + 1}` : ''}
                             </span>
                             {week.map((hari, col) => {
@@ -86,7 +86,7 @@ export default function RiwayatPemakaianHeatmap({ idKendaraan, tahun }: Props) {
                                     <span
                                         key={hari.tanggal}
                                         title={`${tanggal.toLocaleDateString('id-ID')} — ${hari.dipakai ? 'dipakai' : 'tidak dipakai'}`}
-                                        className={`h-3 w-3 rounded-sm ${hari.dipakai ? 'bg-indigo-500' : 'bg-gray-100 dark:bg-gray-800'}`}
+                                        className={`h-3 w-3 rounded-sm ${hari.dipakai ? 'bg-indigo-500' : 'bg-gray-500'}`}
                                     />
                                 );
                             })}

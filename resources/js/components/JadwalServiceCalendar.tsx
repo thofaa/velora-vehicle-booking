@@ -51,7 +51,7 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
 
     return (
         <div>
-            <p className="text-xs font-medium text-gray-700 dark:text-gray-200">
+            <p className="text-xs font-medium text-gray-700">
                 {data.kendaraan
                     ? `${data.kendaraan.merk} ${data.kendaraan.tipe} — ${data.kendaraan.nomor_polisi}`
                     : `Kendaraan #${data.id_kendaraan}`}
@@ -59,7 +59,7 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
 
             <div className="mt-3 grid grid-cols-7 gap-1">
                 {NAMA_HARI.map((hari) => (
-                    <span key={hari} className="text-center text-[10px] font-medium text-gray-400">{hari}</span>
+                    <span key={hari} className="text-center text-[10px] font-medium text-gray-600">{hari}</span>
                 ))}
 
                 {cells.map(({ day, dalamBulan, service }) => {
@@ -71,11 +71,11 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
                             key={tanggal}
                             className={`flex min-h-12 flex-col items-center justify-center rounded-md px-1 py-1 ${
                                 dalamBulan
-                                    ? 'bg-white ring-1 ring-gray-200 dark:bg-gray-900 dark:ring-gray-700'
-                                    : 'bg-transparent'
-                            } ${hariIni ? 'ring-2 ring-indigo-500' : ''}`}
+                                    ? 'bg-gray-400 ring-1 ring-gray-200'
+                                    : 'bg-gray-200'
+                            } ${hariIni ? 'ring-4 ring-indigo-500' : ''}`}
                         >
-                            <span className={`text-xs ${dalamBulan ? 'text-gray-700 dark:text-gray-200' : 'text-gray-300 dark:text-gray-600'}`}>
+                            <span className={`text-[13px] ${dalamBulan ? 'text-gray-800' : 'text-gray-800'}`}>
                                 {day}
                             </span>
                             {service && (
