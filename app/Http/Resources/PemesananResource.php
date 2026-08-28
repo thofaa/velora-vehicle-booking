@@ -30,8 +30,9 @@ class PemesananResource extends JsonResource
                 'id' => $this->admin->id,
                 'name' => $this->admin->name,
             ]),
-            'persetujuan' => PersetujuanResource::collection(
-                $this->whenLoaded('persetujuan', fn () => $this->persetujuan)
+            'persetujuan' => $this->whenLoaded(
+                'persetujuan',
+                fn () => PersetujuanResource::collection($this->persetujuan)->resolve()
             ),
             'created_at' => $this->created_at,
         ];
