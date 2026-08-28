@@ -13,7 +13,6 @@ export default function DriverSelect({
     unavailableIds,
     disabled,
     error,
-    loading,
 }: {
     driver: DriverOption[];
     value: number | null;
@@ -21,31 +20,44 @@ export default function DriverSelect({
     unavailableIds: number[];
     disabled: boolean;
     error?: string;
-    loading?: boolean;
 }) {
+    const allUnavailable =
+        driver.length > 0 && unavailableIds.length === driver.length;
+
     return (
         <div>
             <label htmlFor="driver" className={labelClasses}>
                 Driver
             </label>
-            <select
-                id="driver"
-                className={selectClasses}
-                value={value ?? ''}
-                disabled={disabled}
-                onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
-            >
-                {driver.map((d) => {
-                    const unavailable = unavailableIds.includes(d.id);
+            <div className="relative">
+                <select
+                    id="driver"
+                    className={`${selectClasses}`}
+                    value={value ?? ''}
+                    disabled={disabled}
+                    onChange={(e) => onChange(e.target.value ? Number(e.target.value) : null)}
+                >
+                    {driver.map((d) => {
+                        const unavailable = unavailableIds.includes(d.id);
 
-                    return (
-                        <option key={d.id} value={d.id} disabled={unavailable}>
-                            {d.nama} — {d.nomor_telepon}
-                            {unavailable ? ' (tidak tersedia)' : ''}
-                        </option>
-                    );
-                })}
-            </select>
+                        return (
+                            <option key={d.id} value={d.id} disabled={unavailable}>
+                                {d.nama} — {d.nomor_telepon}
+                                {unavailable ? ' (tidak tersedia)' : ''}
+                            </option>
+                        );
+                    })}
+                </select>
+            </div>
+            <div>
+                {value === null && (
+                    <span
+                        className='left-3 top-1/2 z-10 -translate-y-1/2 text-sm text-orange-500'
+                    >
+                        Semua driver tidak tersedia pada tanggal tersebut!
+                    </span>
+                )}
+            </div>
             {error && <p className={errorClasses}>{error}</p>}
         </div>
     );

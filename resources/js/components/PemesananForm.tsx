@@ -157,7 +157,6 @@ export default function PemesananForm({ kendaraan, driver, penyetuju }: Props) {
                 onChange={pickKendaraan}
                 unavailableIds={unavailableKendaraan}
                 disabled={!data.tanggal_mulai || !data.tanggal_selesai || loading}
-                loading={loading}
                 error={errors.id_kendaraan}
             />
 
@@ -167,7 +166,6 @@ export default function PemesananForm({ kendaraan, driver, penyetuju }: Props) {
                 onChange={(id) => setData('id_driver', id)}
                 unavailableIds={unavailableDriver}
                 disabled={!data.id_kendaraan}
-                loading={loading}
                 error={errors.id_driver}
             />
 
