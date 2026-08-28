@@ -20,22 +20,29 @@ return '-';
 export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
     const [showCatatan, setShowCatatan] = useState(false);
     const bodyRef = useRef<HTMLTableSectionElement>(null);
+    const wrapRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const cells = Array.from(
             bodyRef.current?.querySelectorAll<HTMLElement>('.col-catatan') ?? []
         );
+        const wrap = wrapRef.current;
 
-        if (!cells.length) {
+        if (!cells.length || !wrap) {
             return;
         }
 
         if (showCatatan) {
+            gsap.to(wrap, {
+                width: 1280,
+                duration: 0.45,
+                ease: 'power2.out',
+            });
             gsap.fromTo(
                 cells,
                 { maxWidth: 0, opacity: 0 },
                 {
-                    maxWidth: 600,
+                    maxWidth: 320,
                     opacity: 1,
                     duration: 0.45,
                     ease: 'power2.out',
@@ -47,6 +54,11 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                 }
             );
         } else {
+            gsap.to(wrap, {
+                width: 1000,
+                duration: 0.35,
+                ease: 'power2.inOut',
+            });
             gsap.to(cells, {
                 maxWidth: 0,
                 opacity: 0,
@@ -54,7 +66,7 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                 ease: 'power2.inOut',
                 onStart: () =>
                     cells.forEach((el) => {
-                        el.style.maxWidth = '600px';
+                        el.style.maxWidth = '320px';
                         el.classList.add('whitespace-nowrap');
                     }),
             });
@@ -72,16 +84,16 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                 </Link>
             </div>
 
-            <div className="w-250 overflow-x-auto rounded-2xl border bg-white shadow-sm">
+            <div ref={wrapRef} className="w-250 overflow-x-auto rounded-2xl border bg-white shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200 text-sm">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Kendaraan</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Driver</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Rentang Waktu</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Rantai Persetujuan</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
-                            <th className="px-4 py-3 text-left font-semibold text-gray-600">
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">Kendaraan</th>
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">Driver</th>
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">Rentang Waktu</th>
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">Rantai Persetujuan</th>
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">Status</th>
+                            <th className="px-4 py-3 text-center font-semibold text-gray-600">
                                     <button
                                         type="button"
                                         onClick={() => setShowCatatan((v) => !v)}
@@ -89,17 +101,21 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                         className="inline-flex items-center gap-1 -ml-1 rounded px-1 py-0.5 hover:bg-gray-200"
                                     >
                                         {showCatatan && 'Catatan'}
-                                        <svg
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                            className={`h-4 w-4 transition-transform ${showCatatan ? '' : '-rotate-90'}`}
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
+                                        {showCatatan ? (
+                                            <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
+                                                />
+                                            </svg>
+                                        ) : (
+                                            <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4">
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"
+                                                />
+                                            </svg>
+                                        )}
                                     </button>
                                 </th>
                         </tr>
@@ -152,12 +168,17 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                     {(p.persetujuan ?? []).some((a) => a.catatan) ? (
                                         <div className="space-y-1">
                                             {p.persetujuan?.filter((a) => a.catatan).map((a) => (
-                                                <p key={a.id} className="text-sm text-gray-600">
-                                                    <span className="font-medium">
-                                                        {a.penyetuju?.name ?? 'Level '.concat(String(a.level_persetujuan))}:
-                                                    </span>{' '}
-                                                    {a.catatan}
-                                                </p>
+                                                <div
+                                                    key={a.id}
+                                                    className="inline-block w-fit max-w-[320px] rounded-lg bg-amber-50 px-3 py-1.5 ring-1 ring-gray-400"
+                                                >
+                                                    <p className="text-sm text-gray-700">
+                                                        <span className="font-medium">
+                                                            {a.penyetuju?.name ?? 'Level '.concat(String(a.level_persetujuan))}:
+                                                        </span>{' '}
+                                                        {a.catatan}
+                                                    </p>
+                                                </div>
                                             ))}
                                         </div>
                                     ) : (
