@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PersetujuanController;
 use App\Models\Pemesanan;
@@ -39,5 +40,12 @@ Route::middleware('auth')->group(function () {
             ->name('persetujuan.reject');
     });
 
-    Route::inertia('/dashboard', 'Dashboard')->name('dashboard');
+    Route::prefix('api/dashboard')->middleware('can:viewAny,'.Pemesanan::class)->group(function () {
+        Route::get('/konsumsi-bbm', [DashboardController::class, 'konsumsiBbm'])->name('dashboard.konsumsi-bbm');
+        Route::get('/riwayat-pemakaian', [DashboardController::class, 'riwayatPemakaian'])
+            ->name('dashboard.riwayat-pemakaian');
+        Route::get('/jadwal-service', [DashboardController::class, 'jadwalService'])->name('dashboard.jadwal-service');
+    });
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
