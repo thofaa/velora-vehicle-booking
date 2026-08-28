@@ -24,9 +24,10 @@ export default function AuthLayout({
             <header className="animate-slide-down relative z-10 flex items-center justify-between px-5 py-5 sm:px-8">
                 <Link
                     href="/"
-                    className="text-lg font-semibold tracking-wide text-white drop-shadow sm:text-xl"
+                    className="flex justify-center items-center"
                 >
-                    Vehicle Booking
+                    <img src="/favicon.svg" alt="Vehicle Booking" className="h-9 w-9" />
+                    <span className='ml-2 text-lg font-semibold tracking-wide text-white drop-shadow sm:text-2xl'>Velora</span>
                 </Link>
                 <nav className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 backdrop-blur">
                     {[
@@ -49,8 +50,8 @@ export default function AuthLayout({
             </header>
 
             <main className="relative z-10 flex flex-1 items-center justify-center px-4 py-10">
-                <div className="animate-slide-down-soft w-full max-w-md [animation-delay:250ms]">
-                    <div className="rounded-3xl border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md sm:p-10">
+                <div className="animate-slide-down-soft w-[530px] max-w-full [animation-delay:250ms]">
+                    <div className="rounded-3xl w-[530px] max-w-full border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-md sm:p-10">
                         <h1 className="text-center text-3xl font-bold text-white">{title}</h1>
                         {subtitle && (
                             <p className="mt-2 text-center text-sm text-white/80">{subtitle}</p>

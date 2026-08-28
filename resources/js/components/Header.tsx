@@ -22,8 +22,9 @@ export default function Header() {
     return (
         <header className="sticky top-0 z-20 border-b border-gray-100 bg-white/95 backdrop-blur">
             <div className="flex items-center justify-between px-20 py-3">
-                <Link href={isAdmin ? '/dashboard' : '/persetujuan'} className="text-lg font-semibold text-gray-900">
-                    Vehicle Booking
+                <Link href={isAdmin ? '/dashboard' : '/persetujuan'} className="flex items-center">
+                    <img src="/favicon.svg" alt="Vehicle Booking" className="h-9 w-9" />
+                    <span className='ml-2 font-medium text-[18px] text-gray-700'>Velora</span>
                 </Link>
                 <nav className="flex items-center gap-1">
                     {nav.map((item) => (
