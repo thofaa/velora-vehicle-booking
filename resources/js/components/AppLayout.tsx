@@ -74,7 +74,7 @@ export default function AppLayout({
                 </div>
             )}
 
-            <main className="mx-auto max-w-6xl px-4 py-8">
+            <main className="flex flex-col mx-auto max-w-6xl px-4 py-8 justify-center items-center">
                 <h1 className="mb-6 text-2xl font-bold text-gray-900">{title}</h1>
                 {children}
             </main>

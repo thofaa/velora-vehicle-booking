@@ -15,7 +15,7 @@ export default function Create({
 }) {
     return (
         <AppLayout title="Buat Pemesanan">
-            <div className="max-w-2xl rounded-2xl border bg-white p-6 shadow-sm">
+            <div className="w-200 max-h-fit rounded-2xl border bg-white p-6 shadow-sm">
                 <PemesananForm kendaraan={kendaraan} driver={driver} penyetuju={penyetuju} />
             </div>
         </AppLayout>
