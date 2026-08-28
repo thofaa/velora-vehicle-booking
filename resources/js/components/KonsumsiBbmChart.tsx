@@ -24,9 +24,19 @@ export default function KonsumsiBbmChart({ kendaraanIds, kategori, tahun, bulan 
     const { data, isLoading, error } = useKonsumsiBbm({ kendaraanIds, kategori, tahun, bulan });
 
     if (isLoading) {
-        return <div className="animate-pulse space-y-3">
-            <div className="h-64 rounded-lg bg-gray-100 dark:bg-gray-800"/>
-        </div>;
+        return (
+            <div className="h-80 animate-pulse rounded-lg bg-gray-200">
+                <div className="flex h-full items-end gap-2 p-3">
+                    {Array.from({ length: 12 }, (_, index) => (
+                        <div
+                            key={index}
+                            className="flex-1 rounded-t bg-gray-300"
+                            style={{ height: `${35 + ((index * 41) % 55)}%` }}
+                        />
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     if (error || !data) {

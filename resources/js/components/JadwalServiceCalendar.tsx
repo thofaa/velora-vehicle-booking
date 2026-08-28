@@ -45,9 +45,15 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
     }, [data, bulan, tahun]);
 
     if (isLoading) {
-        return <div className="animate-pulse space-y-3">
-            <div className="h-72 rounded-lg bg-gray-100 dark:bg-gray-800"/>
-        </div>;
+        return (
+            <div className="animate-pulse rounded-lg bg-gray-200 p-2">
+                <div className="grid grid-cols-7 gap-1">
+                    {Array.from({ length: 35 }, (_, index) => (
+                        <div key={index} className="h-12 rounded-md bg-gray-300"/>
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     if (error || !data) {
