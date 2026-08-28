@@ -38,7 +38,7 @@ export default function PenyetujuLevelSelect({
                     return (
                         <option key={`${level}-${u.id}`} value={u.id} disabled={used}>
                             {u.name}
-                            {used ? ' (terpakai)' : ''}
+                            {used}
                         </option>
                     );
                 })}

@@ -19,6 +19,10 @@ class PersetujuanResource extends JsonResource
             'approved_at' => $this->approved_at,
             'catatan' => $this->catatan,
             'id_pihak_penyetuju' => $this->id_pihak_penyetuju,
+            'penyetuju' => $this->whenLoaded('pihakPenyetuju', fn () => [
+                'id' => $this->pihakPenyetuju->id,
+                'name' => $this->pihakPenyetuju->name,
+            ]),
             'pemesanan' => $this->whenLoaded('pemesanan', fn () => [
                 'id' => $this->pemesanan->id,
                 'tanggal_mulai' => $this->pemesanan->tanggal_mulai,

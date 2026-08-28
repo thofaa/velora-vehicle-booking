@@ -57,6 +57,9 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                         <ol className="list-decimal space-y-1 pl-4">
                                             {p.persetujuan?.map((a) => (
                                                 <li key={a.id} className="flex items-center gap-2">
+                                                    <span className="text-gray-700">
+                                                        {a.penyetuju?.name ?? 'Level '.concat(String(a.level_persetujuan))}
+                                                    </span>
                                                     <span
                                                         className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_BADGE[a.status]}`}
                                                     >

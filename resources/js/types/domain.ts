@@ -5,6 +5,7 @@ export type PersetujuanRecord = {
     approved_at?: string | null;
     catatan?: string | null;
     id_pihak_penyetuju: number;
+    penyetuju?: { id: number; name: string } | null;
     pemesanan?: PemesananRecord | null;
     level_sebelumnya?: { level: number; status: string }[] | null;
 };

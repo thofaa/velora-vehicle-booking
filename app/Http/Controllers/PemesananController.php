@@ -33,7 +33,7 @@ class PemesananController extends Controller
     public function index(Request $request): Response
     {
         $pemesanan = Pemesanan::query()
-            ->with(['kendaraan', 'driver', 'admin', 'persetujuan'])
+            ->with(['kendaraan', 'driver', 'admin', 'persetujuan.pihakPenyetuju'])
             ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->get();
