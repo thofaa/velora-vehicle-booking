@@ -3,6 +3,7 @@
 use App\Models\Pemesanan;
 use App\Models\Persetujuan;
 use App\Models\User;
+use Inertia\Testing\AssertableInertia;
 
 function buatPemesananDuaLevel(array $overrides = []): array
 {
@@ -99,6 +100,21 @@ test('tolak mewajibkan catatan', function () {
 
     $this->post(route('persetujuan.reject', $item['l1']))
         ->assertSessionHasErrors('catatan');
+});
+
+test('pemesanan yang ditolak tidak muncul di daftar pending', function () {
+    $item = buatPemesananDuaLevel();
+    $this->actingAs($item['p1']);
+    $this->post(route('persetujuan.reject', $item['l1']), ['catatan' => 'Dokumen kurang'])->assertRedirect();
+
+    expect($item['pemesanan']->fresh()->status)->toBe('ditolak');
+
+    $this->actingAs($item['p2']);
+    $this->get(route('persetujuan.index'))
+        ->assertOk()
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->has('persetujuan', 0)
+        );
 });
 
 test('record yang sudah diproses tidak dapat diproses ulang', function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ApprovePersetujuanRequest;
 use App\Http\Requests\RejectPersetujuanRequest;
 use App\Http\Resources\PersetujuanResource;
+use App\Models\Pemesanan;
 use App\Models\Persetujuan;
 use App\Services\PemesananStatusService;
 use Illuminate\Http\RedirectResponse;
@@ -25,7 +26,7 @@ class PersetujuanController extends Controller
      */
     public function index(Request $request): Response
     {
-        $data = $this->listing($request->user()->id, [Persetujuan::STATUS_PENDING]);
+        $data = $this->listing($request->user()->id, [Persetujuan::STATUS_PENDING], hanyaMenunggu: true);
 
         return Inertia::render('Persetujuan/Index', [
             'persetujuan' => PersetujuanResource::collection($data)->resolve(),
@@ -85,11 +86,15 @@ class PersetujuanController extends Controller
     /**
      * @param  array<int, string>  $status
      */
-    private function listing(int $userId, array $status)
+    private function listing(int $userId, array $status, bool $hanyaMenunggu = false)
     {
         return Persetujuan::query()
             ->where('id_pihak_penyetuju', $userId)
             ->whereIn('status', $status)
+            ->when($hanyaMenunggu, fn ($q) => $q->whereHas(
+                'pemesanan',
+                fn ($q) => $q->where('status', Pemesanan::STATUS_MENUNGGU)
+            ))
             ->with(['pemesanan' => fn ($q) => $q->with(['kendaraan', 'driver', 'admin', 'persetujuan'])])
             ->orderBy('level_persetujuan')
             ->orderByDesc('created_at')
