@@ -44,13 +44,14 @@ return null;
                         </span>
                     </p>
                     <p className="mt-2 text-sm text-gray-600">
-                        {pemesanan.kendaraan?.nomor_polisi} — {pemesanan.kendaraan?.merk}{' '}
+                        Kendaraan: {pemesanan.kendaraan?.nomor_polisi} — {pemesanan.kendaraan?.merk}{' '}
                         {pemesanan.kendaraan?.tipe}
-                        <span className="text-gray-400"> · </span>
+                    </p>
+                    <p className="mt-1 text-sm text-gray-600">
                         Driver: {pemesanan.driver?.nama}
                     </p>
                     <p className="mt-1 text-sm text-gray-600">
-                        {formatDate(pemesanan.tanggal_mulai)} s.d {formatDate(pemesanan.tanggal_selesai)}
+                        Tanggal: {formatDate(pemesanan.tanggal_mulai)} s.d {formatDate(pemesanan.tanggal_selesai)}
                     </p>
                     <p className="mt-1 text-sm text-gray-600">
                         Status: {STATUS_LABEL[pemesanan.status]}
