@@ -32,10 +32,15 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
         const total = Math.ceil((offset + hariDalamBulan) / 7) * 7;
 
         return Array.from({ length: total }, (_, index) => {
-            const day = index - offset + 1;
-            const service = jadwalPerHari.get(day);
+            const date = new Date(tahun, bulan - 1, index - offset + 1);
+            const hari = date.getDate();
 
-            return { day, dalamBulan: day >= 1 && day <= hariDalamBulan, service };
+            return {
+                tanggal: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(hari).padStart(2, '0')}`,
+                hari,
+                dalamBulan: date.getMonth() === bulan - 1,
+                service: jadwalPerHari.get(hari),
+            };
         });
     }, [data, bulan, tahun]);
 
@@ -62,8 +67,7 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
                     <span key={hari} className="text-center text-[10px] font-medium text-gray-600">{hari}</span>
                 ))}
 
-                {cells.map(({ day, dalamBulan, service }) => {
-                    const tanggal = `${tahun}-${String(bulan).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                {cells.map(({ tanggal, hari, dalamBulan, service }) => {
                     const hariIni = tanggal === data.hari_ini;
 
                     return (
@@ -75,8 +79,8 @@ export default function JadwalServiceCalendar({ idKendaraan, bulan, tahun }: Pro
                                     : 'bg-gray-200'
                             } ${hariIni ? 'ring-4 ring-indigo-500' : ''}`}
                         >
-                            <span className={`text-[13px] ${dalamBulan ? 'text-gray-800' : 'text-gray-800'}`}>
-                                {day}
+                            <span className="text-[13px] text-gray-800">
+                                {hari}
                             </span>
                             {service && (
                                 <span
