@@ -3,6 +3,7 @@
 use App\Models\Driver;
 use App\Models\Kendaraan;
 use App\Models\Pemesanan;
+use App\Models\Persetujuan;
 use App\Models\User;
 use App\Services\PemesananExportService;
 use Illuminate\Support\Carbon;
@@ -199,16 +200,28 @@ test('admin dapat mengunduh laporan pemesanan xlsx pada rentang tanggal', functi
         );
 });
 
-test('laporan pemesanan memakai nama deskriptif untuk driver kendaraan dan admin', function () {
-    $driver = Driver::factory()->create(['nama' => 'Budi Santoso']);
-    $kendaraan = Kendaraan::factory()->create(['nomor_polisi' => 'B 1234 CD']);
+test('laporan pemesanan berisi rantai persetujuan dan catatan penolakan', function () {
+    $penyetuju1 = User::factory()->penyetuju()->create(['name' => 'Rina']);
+    $penyetuju2 = User::factory()->penyetuju()->create(['name' => 'Sari']);
 
-    Pemesanan::factory()->create([
-        'id_driver' => $driver->id,
-        'id_kendaraan' => $kendaraan->id,
+    $pemesanan = Pemesanan::factory()->create([
         'id_admin' => $this->admin->id,
         'tanggal_mulai' => '2026-01-10',
         'tanggal_selesai' => '2026-01-12',
+    ]);
+
+    Persetujuan::factory()->create([
+        'id_pemesanan' => $pemesanan->id,
+        'id_pihak_penyetuju' => $penyetuju1->id,
+        'level_persetujuan' => 1,
+        'status' => 'approved',
+    ]);
+    Persetujuan::factory()->create([
+        'id_pemesanan' => $pemesanan->id,
+        'id_pihak_penyetuju' => $penyetuju2->id,
+        'level_persetujuan' => 2,
+        'status' => 'rejected',
+        'catatan' => 'Kendaraan tidak tersedia',
     ]);
 
     $rows = app(PemesananExportService::class)->data(
@@ -217,7 +230,6 @@ test('laporan pemesanan memakai nama deskriptif untuk driver kendaraan dan admin
     );
 
     expect($rows)->toHaveCount(1)
-        ->and($rows[0])->toContain('Budi Santoso')
-        ->and($rows[0])->toContain('B 1234 CD')
-        ->and($rows[0])->toContain($this->admin->name);
+        ->and($rows[0][12])->toBe('Level 1 - Rina (Disetujui); Level 2 - Sari (Ditolak)')
+        ->and($rows[0][13])->toBe('Sari: Kendaraan tidak tersedia');
 });
