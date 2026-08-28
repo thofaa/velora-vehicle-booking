@@ -27,7 +27,7 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                 </Link>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border bg-white shadow-sm">
+            <div className="w-250 overflow-x-auto rounded-2xl border bg-white shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200 text-sm">
                     <thead className="bg-gray-50">
                         <tr>
@@ -35,6 +35,7 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                             <th className="px-4 py-3 text-left font-semibold text-gray-600">Driver</th>
                             <th className="px-4 py-3 text-left font-semibold text-gray-600">Rentang Waktu</th>
                             <th className="px-4 py-3 text-left font-semibold text-gray-600">Rantai Persetujuan</th>
+                            <th className="px-4 py-3 text-left font-semibold text-gray-600">Catatan</th>
                             <th className="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
                         </tr>
                     </thead>
@@ -68,6 +69,22 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
                                                 </li>
                                             ))}
                                         </ol>
+                                    ) : (
+                                        <span className="text-gray-400">-</span>
+                                    )}
+                                </td>
+                                <td className="px-4 py-3">
+                                    {(p.persetujuan ?? []).some((a) => a.catatan) ? (
+                                        <div className="space-y-1">
+                                            {p.persetujuan?.filter((a) => a.catatan).map((a) => (
+                                                <p key={a.id} className="text-sm text-gray-600">
+                                                    <span className="font-medium">
+                                                        {a.penyetuju?.name ?? 'Level '.concat(String(a.level_persetujuan))}:
+                                                    </span>{' '}
+                                                    {a.catatan}
+                                                </p>
+                                            ))}
+                                        </div>
                                     ) : (
                                         <span className="text-gray-400">-</span>
                                     )}
