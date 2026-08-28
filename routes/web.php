@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('can:viewAny,'.Pemesanan::class)->group(function () {
         Route::get('/pemesanan', [PemesananController::class, 'index'])->name('pemesanan.index');
+        Route::get('/pemesanan/export', [PemesananController::class, 'export'])->name('pemesanan.export');
         Route::get('/pemesanan/create', [PemesananController::class, 'create'])->name('pemesanan.create');
         Route::post('/pemesanan', [PemesananController::class, 'store'])->name('pemesanan.store');
         Route::get('/pemesanan/ketersediaan', [PemesananController::class, 'ketersediaan'])->name('pemesanan.ketersediaan');

@@ -1,4 +1,3 @@
-import { Link } from '@inertiajs/react';
 import gsap from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 import AppLayout from '@/components/AppLayout';
@@ -17,10 +16,33 @@ return '-';
     }).format(new Date(value));
 }
 
+function today(): string {
+    return new Date().toISOString().slice(0, 10);
+}
+
+function monthStart(): string {
+    const [tahun, bulan] = today().split('-').map(Number);
+
+    return `${tahun}-${String(bulan).padStart(2, '0')}-01`;
+}
+
+function monthEnd(): string {
+    const [tahun, bulan] = today().split('-').map(Number);
+    const end = new Date(tahun, bulan, 0).getDate();
+
+    return `${tahun}-${String(bulan).padStart(2, '0')}-${String(end).padStart(2, '0')}`;
+}
+
 export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
     const [showCatatan, setShowCatatan] = useState(false);
+    const [dari, setDari] = useState(monthStart);
+    const [hingga, setHingga] = useState(monthEnd);
     const bodyRef = useRef<HTMLTableSectionElement>(null);
     const wrapRef = useRef<HTMLDivElement>(null);
+
+    const exportHref = dari !== '' && hingga !== ''
+        ? `/pemesanan/export?dari=${dari}&hingga=${hingga}`
+        : '#';
 
     useEffect(() => {
         const cells = Array.from(
@@ -75,15 +97,33 @@ export default function Index({ pemesanan }: { pemesanan: PemesananRecord[] }) {
 
     return (
         <AppLayout title="Daftar Pemesanan">
-            <div className="mb-4 flex justify-end">
-                <Link
-                    href="/pemesanan/create"
-                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+            <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl border bg-white p-4 shadow-sm">
+                <label className="flex items-center gap-2 text-sm text-gray-600">
+                    Dari
+                    <input
+                        type="date"
+                        value={dari}
+                        onChange={(e) => setDari(e.target.value)}
+                        className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+                    />
+                </label>
+                <label className="flex items-center gap-2 text-sm text-gray-600">
+                    Sampai
+                    <input
+                        type="date"
+                        value={hingga}
+                        onChange={(e) => setHingga(e.target.value)}
+                        className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm"
+                    />
+                </label>
+                <a
+                    href={exportHref}
+                    className="ml-auto rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-700 disabled:opacity-50"
+                    aria-disabled={exportHref === '#'}
                 >
-                    + Buat Pemesanan
-                </Link>
+                    Export Excel
+                </a>
             </div>
-
             <div ref={wrapRef} className="w-250 overflow-x-auto rounded-2xl border bg-white shadow-sm">
                 <table className="min-w-full divide-y divide-gray-200 text-sm">
                     <thead className="bg-gray-50">

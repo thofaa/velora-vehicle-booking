@@ -4,6 +4,8 @@ use App\Models\Driver;
 use App\Models\Kendaraan;
 use App\Models\Pemesanan;
 use App\Models\User;
+use App\Services\PemesananExportService;
+use Illuminate\Support\Carbon;
 
 function pemesananPayload(array $overrides = []): array
 {
@@ -155,4 +157,67 @@ test('penyetuju harus memiliki role penyetuju', function () {
 
     $this->post(route('pemesanan.store'), $payload)
         ->assertSessionHasErrors('penyetuju.0');
+});
+
+test('penyetuju tidak dapat mengunduh laporan pemesanan', function () {
+    $this->actingAs(User::factory()->penyetuju()->create());
+
+    $this->get(route('pemesanan.export', ['dari' => '2026-01-01', 'hingga' => '2026-01-31']))
+        ->assertForbidden();
+});
+
+test('export memerlukan rentang tanggal yang valid', function () {
+    $this->get(route('pemesanan.export', ['dari' => '2026-02-01', 'hingga' => '2026-01-01']))
+        ->assertSessionHasErrors('hingga');
+
+    $this->get(route('pemesanan.export'))
+        ->assertSessionHasErrors(['dari', 'hingga']);
+});
+
+test('admin dapat mengunduh laporan pemesanan xlsx pada rentang tanggal', function () {
+    Pemesanan::factory()->create([
+        'id_admin' => $this->admin->id,
+        'tanggal_mulai' => '2026-01-10',
+        'tanggal_selesai' => '2026-01-12',
+    ]);
+
+    Pemesanan::factory()->create([
+        'id_admin' => $this->admin->id,
+        'tanggal_mulai' => '2026-02-01',
+        'tanggal_selesai' => '2026-02-02',
+    ]);
+
+    $this->get(route('pemesanan.export', ['dari' => '2026-01-01', 'hingga' => '2026-01-31']))
+        ->assertOk()
+        ->assertHeader(
+            'content-type',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        ->assertHeader(
+            'content-disposition',
+            'attachment; filename=laporan-pemesanan_2026-01-01_2026-01-31.xlsx'
+        );
+});
+
+test('laporan pemesanan memakai nama deskriptif untuk driver kendaraan dan admin', function () {
+    $driver = Driver::factory()->create(['nama' => 'Budi Santoso']);
+    $kendaraan = Kendaraan::factory()->create(['nomor_polisi' => 'B 1234 CD']);
+
+    Pemesanan::factory()->create([
+        'id_driver' => $driver->id,
+        'id_kendaraan' => $kendaraan->id,
+        'id_admin' => $this->admin->id,
+        'tanggal_mulai' => '2026-01-10',
+        'tanggal_selesai' => '2026-01-12',
+    ]);
+
+    $rows = app(PemesananExportService::class)->data(
+        Carbon::parse('2026-01-01'),
+        Carbon::parse('2026-01-31'),
+    );
+
+    expect($rows)->toHaveCount(1)
+        ->and($rows[0])->toContain('Budi Santoso')
+        ->and($rows[0])->toContain('B 1234 CD')
+        ->and($rows[0])->toContain($this->admin->name);
 });

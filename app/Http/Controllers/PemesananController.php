@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExportPemesananRequest;
 use App\Http\Requests\KetersediaanQueryRequest;
 use App\Http\Requests\StorePemesananRequest;
 use App\Http\Resources\PemesananResource;
@@ -11,6 +12,7 @@ use App\Models\Pemesanan;
 use App\Models\Persetujuan;
 use App\Models\User;
 use App\Services\KetersediaanPemesananService;
+use App\Services\PemesananExportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,11 +22,15 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PemesananController extends Controller
 {
     public function __construct(
         private readonly KetersediaanPemesananService $ketersediaan,
+        private readonly PemesananExportService $exportService,
     ) {}
 
     /**
@@ -105,6 +111,38 @@ class PemesananController extends Controller
         });
 
         return Redirect::route('pemesanan.index')->with('success', 'Pemesanan berhasil dibuat.');
+    }
+
+    /**
+     * Unduh laporan pemesanan periodik (.xlsx) pada rentang tanggal mulai.
+     */
+    public function export(ExportPemesananRequest $request): StreamedResponse
+    {
+        $dari = Carbon::parse($request->validated('dari'));
+        $hingga = Carbon::parse($request->validated('hingga'));
+
+        $spreadsheet = new Spreadsheet;
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->fromArray($this->exportService->header(), null, 'A1');
+        $sheet->fromArray($this->exportService->data($dari, $hingga), null, 'A2');
+        $sheet->getStyle('A1:'.$sheet->getHighestColumn().'1')->getFont()->setBold(true);
+
+        foreach (range('A', $sheet->getHighestColumn()) as $column) {
+            $sheet->getColumnDimension($column)->setAutoSize(true);
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = sprintf(
+            'laporan-pemesanan_%s_%s.xlsx',
+            $dari->format('Y-m-d'),
+            $hingga->format('Y-m-d'),
+        );
+
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
     }
 
     /**

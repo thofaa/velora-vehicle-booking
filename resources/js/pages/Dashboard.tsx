@@ -17,7 +17,7 @@ const BULAN_NAMA = [
 
 function WidgetCard({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
     return (
-        <section className="rounded-2xl bg-white p-5 shadow-sm">
+        <section className="rounded-2xl bg-white p-3 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
             <p className="mt-0.5 text-sm text-gray-700">{description}</p>
             <div className="mt-4">{children}</div>
@@ -61,7 +61,7 @@ export default function Dashboard({ kendaraan }: Props) {
             <Head title="Dashboard" />
             <div className="min-h-screen bg-gray-100">
                 <Header />
-                <main className="mx-auto max-w-6xl space-y-6 p-6">
+                <main className="mx-auto max-w-[1200px] space-y-6 p-6">
                     <WidgetCard title="Konsumsi BBM" description="Total liter BBM per bulan/minggu untuk beberapa kendaraan">
                         <div className="flex flex-wrap items-center gap-3">
                             <div className="inline-flex rounded-lg bg-gray-200 p-1">
