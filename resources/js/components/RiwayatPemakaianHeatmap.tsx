@@ -8,6 +8,7 @@ interface Props {
 }
 
 const NAMA_HARI = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+const BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
 const mondayIndex = (date: Date) => (date.getDay() + 6) % 7;
 
@@ -55,29 +56,51 @@ export default function RiwayatPemakaianHeatmap({ idKendaraan, tahun }: Props) {
                         : `Kendaraan #${data.tahun}`}
                 </p>
                 <div className="flex items-center gap-3">
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex items-center gap-1.5 text-gray-700">
                         <span className="h-3 w-3 rounded-sm bg-indigo-500"/> dipakai
                     </span>
-                    <span className="flex items-center gap-1.5">
-                        <span className="h-3 w-3 rounded-sm border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-gray-800"/> tidak
+                    <span className="flex items-center gap-1.5 text-gray-700">
+                        <span className="h-3 w-3 rounded-sm bg-gray-500"/> tidak
                     </span>
                 </div>
             </div>
 
-            <div className="mt-3 overflow-x-auto">
-                <div className="inline-grid grid-cols-[auto_repeat(7,minmax(12px,1fr))] gap-1">
+            <div className="mt-3">
+                <div
+                    className="grid gap-[1px] bg-white p-2"
+                    style={{ gridTemplateColumns: `auto repeat(${rows.length}, minmax(0, 1fr))` }}
+                >
                     <span/>
-                    {NAMA_HARI.map((hari) => (
-                        <span key={hari} className="text-center text-[10px] text-gray-600">{hari}</span>
-                    ))}
-                    {rows.map((week, weekIndex) => (
-                        <Fragment key={weekIndex}>
-                            <span className="pr-2 text-[10px] text-gray-600">
-                                {weekIndex % 4 === 0 ? `Minggu ${weekIndex + 1}` : ''}
-                            </span>
-                            {week.map((hari, col) => {
+                    {(() => {
+                        let lastMonth = -1;
+
+                        return rows.map((week, weekIndex) => {
+                            const firstDay = week.find(Boolean);
+                            const month = firstDay ? new Date(`${firstDay.tanggal}T00:00:00`).getMonth() : lastMonth;
+                            const show = month !== lastMonth;
+
+                            if (show) {
+                                lastMonth = month;
+                            }
+
+                            return (
+                                <span
+                                    key={`week-header-${weekIndex}`}
+                                    className="whitespace-nowrap text-center text-[10px] text-gray-600"
+                                >
+                                    {show ? BULAN[month] : ''}
+                                </span>
+                            );
+                        });
+                    })()}
+                    {NAMA_HARI.map((hariName, weekdayIndex) => (
+                        <Fragment key={hariName}>
+                            <span className="text-center pr-1 text-[10px] text-gray-600">{hariName}</span>
+                            {rows.map((week, weekIndex) => {
+                                const hari = week[weekdayIndex];
+
                                 if (!hari) {
-                                    return <span key={`${weekIndex}-${col}`} className="h-3"/>;
+                                    return <span key={`${weekIndex}-${weekdayIndex}`} className="h-3"/>;
                                 }
 
                                 const tanggal = new Date(`${hari.tanggal}T00:00:00`);
@@ -86,7 +109,7 @@ export default function RiwayatPemakaianHeatmap({ idKendaraan, tahun }: Props) {
                                     <span
                                         key={hari.tanggal}
                                         title={`${tanggal.toLocaleDateString('id-ID')} — ${hari.dipakai ? 'dipakai' : 'tidak dipakai'}`}
-                                        className={`h-3 w-3 rounded-sm ${hari.dipakai ? 'bg-indigo-500' : 'bg-gray-500'}`}
+                                        className={`h-3 rounded-[1px] ${hari.dipakai ? 'bg-indigo-500' : 'bg-gray-500'}`}
                                     />
                                 );
                             })}
