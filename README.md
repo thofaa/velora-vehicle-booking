@@ -1,6 +1,9 @@
 <p align="center">
   <img src="public/favicon.svg" alt="Velora" width="240">
 </p>
+<h1 align='center'>
+  Velora - Vehicle Booking Web App
+</h1>
 
 <p align="center">
   <img alt="PHP 8.5.0" src="https://img.shields.io/badge/PHP_8.5.0-777BB4?style=flat-square&logo=php&logoColor=white">
@@ -14,9 +17,8 @@
   <img alt="Node.js 24" src="https://img.shields.io/badge/Node.js_24-339933?style=flat-square&logo=nodedotjs&logoColor=white">
 </p>
 
-# Velora — Vehicle Booking
-
-Aplikasi **manajemen pemesanan kendaraan** berbasis web yang menangani alur pemesanan kendaraan, rantai persetujuan berjenjang (penyetuju), ekspor laporan ke Excel, serta dashboard konsumsi BBM dan jadwal servis.
+<br />
+Velora adalah aplikasi **manajemen pemesanan kendaraan** berbasis web yang menangani alur pemesanan kendaraan, rantai persetujuan berjenjang (penyetuju), ekspor laporan ke Excel, serta dashboard konsumsi BBM dan jadwal servis.
 
 ## Akun Default (Seeder)
 
