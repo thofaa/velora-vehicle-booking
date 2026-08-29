@@ -15,6 +15,7 @@
   <img alt="Tailwind CSS 4" src="https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white">
   <img alt="Vite 8" src="https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white">
   <img alt="Node.js 24" src="https://img.shields.io/badge/Node.js_24-339933?style=flat-square&logo=nodedotjs&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
 </p>
 
 <br />
