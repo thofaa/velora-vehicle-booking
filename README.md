@@ -33,7 +33,26 @@ Semua akun memiliki kata sandi **`password`**.
 > Selain itu seeder membuat akun acak (email faker, kata sandi tetap `password`): 2 admin & 7 penyetuju
 > tambahan, 9 driver, 23 kendaraan, serta data dummy widget dashboard (sebaran pemesanan, BBM, jadwal service).
 
-## Cara Menjalankan
+## Cara Menjalankan (Docker)
+
+Aplikasi dikemas sebagai tiga layanan: **db** (MySQL), **app** (Laravel + PHP-FPM), dan **server** (Nginx).
+
+```bash
+#1. Bangun image dan jalankan semua layanan
+docker compose up -d --build
+
+#2. Akses aplikasi
+#   http://localhost:8080
+```
+
+- Migrasi, `package:discover`, dan seeder (bila database kosong) berjalan otomatis.
+- Kredensial database memakai variabel `DB_*` bawaan `docker-compose.yml`; ubah di sana bila perlu.
+- Untuk melihat log: `docker compose logs -f app`
+- Untuk menghentikan: `docker compose down`
+
+## Cara Menjalankan (Tanpa Docker)
+
+Butuh PHP 8.5, MySQL, Node.js ≥ 20, dan Composer terpasang di mesin.
 
 ```bash
 #1. Instal dependensi
@@ -44,15 +63,18 @@ npm install
 cp .env.example .env
 php artisan key:generate
 
-#3. Atur koneksi MySQL di file .env, lalu jalankan migrasi + seeder
+#3. Atur koneksi MySQL di file .env (DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD)
+
+#4. Buat database, lalu jalankan migrasi + seeder
 php artisan migrate
 php artisan db:seed
 
-#4. Jalankan aplikasi (pilih salah satu)
-npm run dev # mode pengembangan (HMR)
-npm run build # kompilasi aset untuk produksi
-php artisan serve
+#5. Jalankan aplikasi (dua terminal, atau gunakan `composer run dev`)
+npm run dev      # mode pengembangan (HMR)
+php artisan serve # akses http://localhost:8000
 ```
+
+> Catatan: DB MySQL sudah pernah disiapkan untuk mode ini (user, skema, dan data seeder sudah ada) maka langkah 3–4 bisa dilewati dan langsung menjalankan langkah 5.
 
 ## Panduan Penggunaan
 

@@ -11,7 +11,6 @@ mkdir -p storage/framework/cache/data storage/framework/sessions storage/framewo
 chmod -R 777 storage bootstrap/cache
 rm -f bootstrap/cache/packages.php bootstrap/cache/services.php
 php artisan package:discover --ansi
-php artisan key:generate --force >/dev/null 2>&1 || true
 
 php artisan migrate --force
 

@@ -91,6 +91,7 @@ COPY --from=vendor /app/vendor ./vendor
 COPY --from=frontend /app/public/build public/build
 
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+RUN rm -f /etc/nginx/sites-enabled/default
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
 

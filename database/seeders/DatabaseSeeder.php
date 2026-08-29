@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Dummy pemesanan disetujui sepanjang tahun untuk widget Riwayat Pemakaian (heatmap).
+        //Dummy pemesanan disetujui sepanjang tahun untuk widget Riwayat Pemakaian (heatmap).
         for ($i = 0; $i < 60; $i++) {
             $awal = now()->setDate($tahun, fake()->numberBetween(1, 12), fake()->numberBetween(1, 28));
             Pemesanan::factory()->create([
