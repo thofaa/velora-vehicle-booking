@@ -30,6 +30,9 @@ Semua akun memiliki kata sandi **`password`**.
 | Admin (kelola pemesanan & laporan) | Admin Utama | `admin@example.com` |
 | Penyetuju (persetujuan berjenjang) | Penyetuju Satu | `penyetuju@example.com` |
 
+> Selain itu seeder membuat akun acak (email faker, kata sandi tetap `password`): 2 admin & 7 penyetuju
+> tambahan, 9 driver, 23 kendaraan, serta data dummy widget dashboard (sebaran pemesanan, BBM, jadwal service).
+
 ## Cara Menjalankan
 
 ```bash

@@ -6,6 +6,7 @@ use App\Models\Driver;
 use App\Models\JadwalService;
 use App\Models\Kendaraan;
 use App\Models\KonsumsiBbm;
+use App\Models\Pemesanan;
 use App\Models\User;
 use Database\Factories\KendaraanFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -25,21 +26,22 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin Utama',
             'email' => 'admin@example.com',
         ]);
+        User::factory()->admin()->count(2)->create();
 
         User::factory()->penyetuju()->create([
             'name' => 'Penyetuju Satu',
             'email' => 'penyetuju@example.com',
         ]);
-
-        User::factory()->penyetuju()->create();
+        User::factory()->penyetuju()->count(7)->create();
 
         Kendaraan::factory()->count(count(KendaraanFactory::FLEET))->sequence(
             fn (Sequence $sequence) => KendaraanFactory::FLEET[$sequence->index],
         )->create();
-        Driver::factory()->count(5)->create();
+        Driver::factory()->count(9)->create();
 
-        User::factory()->create();
-
+        $adminIds = User::where('role', 'admin')->pluck('id');
+        $penyetujuIds = User::where('role', 'penyetuju')->pluck('id');
+        $driverIds = Driver::pluck('id');
         $kendaraanIds = Kendaraan::pluck('id');
         $tahun = now()->year;
 
@@ -53,11 +55,28 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        foreach (range(1, 3) as $i) {
+        foreach (range(1, 30) as $i) {
             JadwalService::factory()->create([
                 'id_kendaraan' => $kendaraanIds->random(),
-                'tanggal_service' => now()->setDate($tahun, now()->month, rand(1, 28)),
-                'status' => $i <= 2 ? 'selesai' : 'terjadwal',
+                'tanggal_service' => now()->setDate(
+                    $tahun,
+                    fake()->numberBetween(1, 12),
+                    fake()->numberBetween(1, 28),
+                ),
+                'status' => fake()->randomElement(['terjadwal', 'selesai']),
+            ]);
+        }
+
+        // Dummy pemesanan disetujui sepanjang tahun untuk widget Riwayat Pemakaian (heatmap).
+        for ($i = 0; $i < 60; $i++) {
+            $awal = now()->setDate($tahun, fake()->numberBetween(1, 12), fake()->numberBetween(1, 28));
+            Pemesanan::factory()->create([
+                'id_kendaraan' => $kendaraanIds->random(),
+                'id_driver' => $driverIds->random(),
+                'id_admin' => $adminIds->random(),
+                'tanggal_mulai' => $awal,
+                'tanggal_selesai' => $awal->copy()->addDays(fake()->numberBetween(1, 3)),
+                'status' => Pemesanan::STATUS_DISETUJUI,
             ]);
         }
     }
