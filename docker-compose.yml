@@ -6,14 +6,14 @@ services:
     container_name: velora-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: vehicle-booking
-      MYSQL_USER: velora
-      MYSQL_PASSWORD: velora_pass
-      MYSQL_ROOT_PASSWORD: velora_root
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pvelora_root"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -31,9 +31,9 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: "3306"
-      DB_DATABASE: vehicle-booking
-      DB_USERNAME: velora
-      DB_PASSWORD: velora_pass
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
