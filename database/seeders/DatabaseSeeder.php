@@ -7,7 +7,9 @@ use App\Models\JadwalService;
 use App\Models\Kendaraan;
 use App\Models\KonsumsiBbm;
 use App\Models\User;
+use Database\Factories\KendaraanFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -31,7 +33,9 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->penyetuju()->create();
 
-        Kendaraan::factory()->count(5)->create();
+        Kendaraan::factory()->count(count(KendaraanFactory::FLEET))->sequence(
+            fn (Sequence $sequence) => KendaraanFactory::FLEET[$sequence->index],
+        )->create();
         Driver::factory()->count(5)->create();
 
         User::factory()->create();
