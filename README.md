@@ -83,9 +83,11 @@ php artisan serve # akses http://localhost:8000
 ### 2. Membuat Pemesanan (Admin)
 
 1. Klik **Buat Pemesanan**.
-2. Pilih **kendaraan**, **driver**, tanggal **mulai** dan **selesai**, lalu tentukan **penyetuju** berjenjang.
+2. Pilih tanggal **mulai** dan **selesai**.
 3. Sistem memeriksa ketersediaan kendaraan & driver pada rentang tanggal tersebut.
-4. Simpan (pemesanan akan berstatus **Menunggu Persetujuan** dan dibuatkan rantai persetujuan)
+4. Pilih kendaraan dan driver yang tersedia. 
+5. Pilih penyetuju berjenjang.
+6. Simpan (pemesanan akan berstatus **Menunggu Persetujuan** dan dibuatkan rantai persetujuan)
 
 ### 3. Menyetujui / Menolak (Penyetuju)
 
@@ -94,12 +96,7 @@ php artisan serve # akses http://localhost:8000
 3. Seluruh tingkat (rantai persetujuan) harus menyetujui agar pemesanan berstatus **Disetujui**.
 4. Histori tindakan dapat dilihat pada menu **Riwayat**.
 
-### 4. Mensyaratkan Kendaraan
-
-Kendaraan, driver, konsumsi BBM, dan jadwal servis dikelola lewat **Dashboard** serta data master aplikasi; pemakai kendaraan
-dipilih dari daftar driver yang sudah tersedia.
-
-### 5. Ekspor Laporan Excel
+### 4. Ekspor Laporan Excel
 
 1. Buka **Daftar Pemesanan** (admin).
 2. Tentukan rentang **Dari** dan **Sampai** pada bilah ekspor.
