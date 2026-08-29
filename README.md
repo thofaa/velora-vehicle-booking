@@ -45,11 +45,6 @@ docker compose up -d --build
 #   http://localhost:8080
 ```
 
-- Migrasi, `package:discover`, dan seeder (bila database kosong) berjalan otomatis.
-- Kredensial database memakai variabel `DB_*` bawaan `docker-compose.yml`; ubah di sana bila perlu.
-- Untuk melihat log: `docker compose logs -f app`
-- Untuk menghentikan: `docker compose down`
-
 ## Cara Menjalankan (Tanpa Docker)
 
 Butuh PHP 8.5, MySQL, Node.js ≥ 20, dan Composer terpasang di mesin.
@@ -70,11 +65,9 @@ php artisan migrate
 php artisan db:seed
 
 #5. Jalankan aplikasi (dua terminal, atau gunakan `composer run dev`)
-npm run dev      # mode pengembangan (HMR)
+npm run dev # mode pengembangan (HMR)
 php artisan serve # akses http://localhost:8000
 ```
-
-> Catatan: DB MySQL sudah pernah disiapkan untuk mode ini (user, skema, dan data seeder sudah ada) maka langkah 3–4 bisa dilewati dan langsung menjalankan langkah 5.
 
 ## Panduan Penggunaan
 
