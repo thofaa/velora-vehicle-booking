@@ -31,8 +31,8 @@ Semua akun memiliki kata sandi **`password`**.
 | Admin (kelola pemesanan & laporan) | Admin Utama | `admin@example.com` |
 | Penyetuju (persetujuan berjenjang) | Penyetuju Satu | `penyetuju@example.com` |
 
-> Selain itu seeder membuat akun acak (email faker, kata sandi tetap `password`): 2 admin & 7 penyetuju
-> tambahan, 9 driver, 23 kendaraan, serta data dummy widget dashboard (sebaran pemesanan, BBM, jadwal service).
+> Selain itu ketika menjalankan seeder, maka akan tergenerate akun acak (kata sandi tetap `password`) untuk 2 admin dan 7 penyetuju
+> tambahan, 9 driver, 23 kendaraan, serta data dummy widget dashboard (sebaran pemesanan, BBM, dan jadwal service).
 
 ## Cara Menjalankan (Docker)
 
