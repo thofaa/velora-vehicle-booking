@@ -1,0 +1,52 @@
+name: velora
+
+services:
+  db:
+    image: mysql:8.4
+    container_name: velora-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: vehicle-booking
+      MYSQL_USER: velora
+      MYSQL_PASSWORD: velora_pass
+      MYSQL_ROOT_PASSWORD: velora_root
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pvelora_root"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    container_name: velora-app
+    restart: unless-stopped
+    environment:
+      ROLE: app
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: http://localhost:8080
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: vehicle-booking
+      DB_USERNAME: velora
+      DB_PASSWORD: velora_pass
+    depends_on:
+      db:
+        condition: service_healthy
+
+  server:
+    build: .
+    container_name: velora-server
+    restart: unless-stopped
+    environment:
+      ROLE: web
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+
+volumes:
+  db_data:
